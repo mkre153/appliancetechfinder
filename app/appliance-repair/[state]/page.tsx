@@ -14,12 +14,11 @@ import {
 } from '@/lib/queries'
 import {
   getAllStatesUrl,
-  getStateUrl,
   getCityUrl,
   getSdfStateUrl,
 } from '@/lib/urls'
-import { SITE_NAME, SITE_URL } from '@/lib/config'
-import { JsonLd } from '@/lib/schema'
+import { generateStateMetadata } from '@/lib/seo'
+import { JsonLd, generateStateBreadcrumbs } from '@/lib/schema'
 import { AdUnit } from '@/components/ads/AdUnit'
 
 interface PageProps {
@@ -34,13 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!state) return { title: 'State Not Found' }
 
-  return {
-    title: `Appliance Repair in ${state.name} | ${SITE_NAME}`,
-    description: `Find appliance repair companies in ${state.name}. Browse local repair services for refrigerators, washers, dryers, and more.`,
-    alternates: {
-      canonical: `${SITE_URL}${getStateUrl(state)}`,
-    },
-  }
+  return generateStateMetadata(state)
 }
 
 export default async function RepairStatePage({ params }: PageProps) {
@@ -54,19 +47,9 @@ export default async function RepairStatePage({ params }: PageProps) {
     getRepairCompaniesByStateId(state.id),
   ])
 
-  const breadcrumbSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Appliance Repair', item: `${SITE_URL}${getAllStatesUrl()}` },
-      { '@type': 'ListItem', position: 3, name: state.name, item: `${SITE_URL}${getStateUrl(state)}` },
-    ],
-  }
-
   return (
     <>
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={generateStateBreadcrumbs(state)} />
 
       {/* Hero */}
       <section className="bg-blue-50 py-12">

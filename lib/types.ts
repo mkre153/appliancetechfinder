@@ -56,6 +56,15 @@ export interface City {
   storeCount: number
 }
 
+export interface CityInsert {
+  slug: string
+  name: string
+  state_id: number
+  state_code: string
+  lat: number | null
+  lng: number | null
+}
+
 // =============================================================================
 // Repair Company
 // =============================================================================
@@ -98,6 +107,90 @@ export interface RepairCompany {
   lat: number | null
   lng: number | null
   isApproved: boolean
+}
+
+// =============================================================================
+// Repair Company Insert (for ingestion)
+// =============================================================================
+
+export interface RepairCompanyInsert {
+  name: string
+  slug: string
+  address: string | null
+  city_id: number | null
+  state_id: number | null
+  zip: string | null
+  phone: string | null
+  website: string | null
+  description: string | null
+  services: string[] | null
+  rating: number | null
+  review_count: number | null
+  lat: number | null
+  lng: number | null
+  is_approved: boolean
+  google_place_id?: string | null
+  source?: string | null
+  batch_id?: string | null
+}
+
+// =============================================================================
+// Submission Types
+// =============================================================================
+
+export interface RepairCompanySubmissionInsert {
+  company_name: string
+  address: string
+  city: string
+  state: string
+  zip: string
+  phone: string
+  email: string
+  website: string | null
+  services: string | null
+  description: string | null
+  verification_code_hash: string | null
+  verification_expires_at: string | null
+}
+
+export interface RepairCompanySubmissionRow {
+  id: string
+  company_name: string
+  address: string
+  city: string
+  state: string
+  zip: string
+  phone: string
+  email: string
+  website: string | null
+  services: string | null
+  description: string | null
+  verification_code_hash: string | null
+  verification_expires_at: string | null
+  email_verified_at: string | null
+  verification_attempts: number
+  status: 'pending' | 'verified' | 'approved' | 'rejected'
+  created_at: string
+}
+
+export interface RepairCompanySubmission {
+  id: string
+  companyName: string
+  address: string
+  city: string
+  state: string
+  zip: string
+  phone: string
+  email: string
+  website: string | null
+  services: string | null
+  description: string | null
+  emailVerifiedAt: string | null
+  verificationAttempts: number
+  verificationCodeHash: string | null
+  verificationExpiresAt: string | null
+  status: 'pending' | 'verified' | 'approved' | 'rejected'
+  submittedAt: string
 }
 
 // =============================================================================

@@ -5,17 +5,9 @@
 import type { Metadata } from 'next'
 import { getAllStates } from '@/lib/queries'
 import { StateGrid } from '@/components/directory'
-import { SITE_NAME, SITE_URL } from '@/lib/config'
-import { getAllStatesUrl } from '@/lib/urls'
+import { generateAllStatesMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: `Appliance Repair by State | ${SITE_NAME}`,
-  description:
-    'Find appliance repair companies near you. Browse by state to find local repair services for refrigerators, washers, dryers, dishwashers, and more.',
-  alternates: {
-    canonical: `${SITE_URL}${getAllStatesUrl()}`,
-  },
-}
+export const metadata: Metadata = generateAllStatesMetadata()
 
 export const revalidate = 300
 

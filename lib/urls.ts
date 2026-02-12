@@ -47,6 +47,58 @@ export function getTermsUrl(): string {
   return '/terms/'
 }
 
+export function getBlogUrl(): string {
+  return '/blog/'
+}
+
+export function getBlogPostUrl(slug: string): string {
+  return `/blog/${slug}/`
+}
+
+export function getBlogCategoryUrl(category: string): string {
+  return `/blog/category/${category}/`
+}
+
+export function getSubmitCompanyUrl(): string {
+  return '/stores/new/'
+}
+
+export function getAdminUrl(): string {
+  return '/admin/'
+}
+
+// =============================================================================
+// Deals Routes
+// =============================================================================
+
+export function getDealsUrl(): string {
+  return '/deals/'
+}
+
+export function getDealUrl(id: string): string {
+  return `/deals/${id}/`
+}
+
+export function getDealSubmitUrl(): string {
+  return '/deals/submit/'
+}
+
+// =============================================================================
+// Auth Routes
+// =============================================================================
+
+export function getSignInUrl(): string {
+  return '/auth/signin/'
+}
+
+export function getSignUpUrl(): string {
+  return '/auth/signup/'
+}
+
+export function getResetPasswordUrl(): string {
+  return '/auth/reset-password/'
+}
+
 // =============================================================================
 // Cross-site Links
 // =============================================================================

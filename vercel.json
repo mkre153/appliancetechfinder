@@ -1,0 +1,7 @@
+{
+  "crons": [
+    { "path": "/api/deals/expire", "schedule": "0 6 * * *" },
+    { "path": "/api/email/newsletter", "schedule": "0 14 * * 1" },
+    { "path": "/api/email/outreach", "schedule": "0 15 * * *" }
+  ]
+}

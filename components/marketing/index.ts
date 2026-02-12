@@ -1,0 +1,5 @@
+export { TrustStrip } from './TrustStrip'
+export { HowItWorks } from './HowItWorks'
+export { FAQ } from './FAQ'
+export { SoftCTA } from './SoftCTA'
+export { ValueProps } from './ValueProps'

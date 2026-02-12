@@ -1,22 +1,16 @@
 /**
  * Homepage — Appliance Tech Finder
  *
- * Hero + state grid for browsing repair companies.
+ * Hero + TrustStrip + HowItWorks + StateGrid + ValueProps + FAQ + SoftCTA + Cross-link
  */
 
 import type { Metadata } from 'next'
 import { getAllStates } from '@/lib/queries'
 import { StateGrid } from '@/components/directory'
-import { SITE_NAME, SITE_URL } from '@/lib/config'
+import { TrustStrip, HowItWorks, ValueProps, FAQ, SoftCTA } from '@/components/marketing'
+import { generateHomepageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: `Find Appliance Repair Companies Near You | ${SITE_NAME}`,
-  description:
-    'Find appliance repair companies near you. Browse by state to find local repair services for refrigerators, washers, dryers, dishwashers, and more.',
-  alternates: {
-    canonical: SITE_URL,
-  },
-}
+export const metadata: Metadata = generateHomepageMetadata()
 
 export const revalidate = 300
 
@@ -38,8 +32,23 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Trust Strip */}
+      <TrustStrip />
+
+      {/* How It Works */}
+      <HowItWorks />
+
       {/* State Grid */}
       <StateGrid states={states} />
+
+      {/* Value Props */}
+      <ValueProps />
+
+      {/* FAQ */}
+      <FAQ />
+
+      {/* Soft CTA */}
+      <SoftCTA />
 
       {/* Cross-link to SDF */}
       <section className="bg-gray-50 py-8">

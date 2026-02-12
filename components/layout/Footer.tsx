@@ -3,7 +3,16 @@
  */
 
 import Link from 'next/link'
-import { getHomepageUrl, getAllStatesUrl, getPrivacyUrl, getTermsUrl } from '@/lib/urls'
+import {
+  getHomepageUrl,
+  getAllStatesUrl,
+  getBlogUrl,
+  getAboutUrl,
+  getContactUrl,
+  getPrivacyUrl,
+  getTermsUrl,
+  getSubmitCompanyUrl,
+} from '@/lib/urls'
 
 export function Footer() {
   return (
@@ -28,6 +37,26 @@ export function Footer() {
               <li>
                 <Link href={getAllStatesUrl()} className="min-h-[44px] inline-flex items-center hover:text-white">
                   Browse All States
+                </Link>
+              </li>
+              <li>
+                <Link href={getBlogUrl()} className="min-h-[44px] inline-flex items-center hover:text-white">
+                  Savings Tips
+                </Link>
+              </li>
+              <li>
+                <Link href={getAboutUrl()} className="min-h-[44px] inline-flex items-center hover:text-white">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href={getContactUrl()} className="min-h-[44px] inline-flex items-center hover:text-white">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href={getSubmitCompanyUrl()} className="min-h-[44px] inline-flex items-center hover:text-white">
+                  Suggest a Company
                 </Link>
               </li>
             </ul>

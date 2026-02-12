@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { ChatWidget } from '@/components/chat/ChatWidget'
 import { SITE_NAME, DEFAULT_DESCRIPTION, SITE_URL } from '@/lib/config'
 import {
   JsonLd,
@@ -43,6 +44,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ChatWidget />
         <Analytics />
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
           <Script
