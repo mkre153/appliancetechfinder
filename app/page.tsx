@@ -5,18 +5,15 @@
  */
 
 import type { Metadata } from 'next'
-import { getAllStates } from '@/lib/queries'
-import { StateGrid } from '@/components/directory'
 import { TrustStrip, HowItWorks, ValueProps, FAQ, SoftCTA } from '@/components/marketing'
 import { generateHomepageMetadata } from '@/lib/seo'
+import USMapSection from '@/components/sections/USMapSection'
 
 export const metadata: Metadata = generateHomepageMetadata()
 
 export const revalidate = 300
 
-export default async function HomePage() {
-  const states = await getAllStates()
-
+export default function HomePage() {
   return (
     <>
       {/* Hero */}
@@ -38,8 +35,8 @@ export default async function HomePage() {
       {/* How It Works */}
       <HowItWorks />
 
-      {/* State Grid */}
-      <StateGrid states={states} />
+      {/* US Map */}
+      <USMapSection />
 
       {/* Value Props */}
       <ValueProps />
