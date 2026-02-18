@@ -11,6 +11,7 @@
 
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { upsertContact } from '@shared/crm'
 
 export async function POST(request: Request) {
   try {
@@ -52,6 +53,15 @@ export async function POST(request: Request) {
       }
       throw error
     }
+
+    // Sync to CRM (non-blocking)
+    upsertContact({
+      email: email.trim().toLowerCase(),
+      sourceSite: 'atf',
+      sourceForm: 'newsletter',
+      tags: ['newsletter'],
+      consent: true,
+    }).catch(err => console.error('[CRM] Newsletter sync failed:', err))
 
     return NextResponse.json({ success: true })
   } catch (error) {

@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
+  transpilePackages: ['@shared/crm'],
   webpack: (config) => {
     config.plugins.push(new VeliteWebpackPlugin())
     return config

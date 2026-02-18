@@ -12,8 +12,7 @@
 
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { isGHLConfigured } from '@/lib/ghl/client'
-import { createContact } from '@/lib/ghl/contacts'
+import { upsertContact, logActivity } from '@shared/crm'
 
 const VALID_SUBJECTS = [
   'General Inquiry',
@@ -74,21 +73,25 @@ export async function POST(request: Request) {
       // Don't fail the request if DB insert fails — still sync to GHL
     }
 
-    // Sync to GHL if configured (non-blocking)
-    if (isGHLConfigured()) {
-      createContact({
-        email: email.trim().toLowerCase(),
-        name: name.trim(),
-        tags: ['contact-form', subject.toLowerCase().replace(/\s+/g, '-')],
-        source: 'Contact Form',
-      }).catch((err) => console.error('[GHL] Contact sync failed:', err))
-    } else {
-      console.log('[Contact] GHL not configured, submission logged only:', {
-        name: name.trim(),
-        email: email.trim(),
-        subject,
-      })
-    }
+    // Sync to CRM (non-blocking)
+    upsertContact({
+      email: email.trim().toLowerCase(),
+      firstName: name.trim(),
+      sourceSite: 'atf',
+      sourceForm: 'contact',
+      tags: ['contact-form', subject.toLowerCase().replace(/\s+/g, '-')],
+      consent: true,
+    }).then(result => {
+      if (result.success) {
+        logActivity({
+          contactId: result.data.id,
+          type: 'form_submit',
+          channel: 'web',
+          subject: `Contact form: ${subject}`,
+          body: message.trim(),
+        }).catch(err => console.error('[CRM] Activity log failed:', err))
+      }
+    }).catch(err => console.error('[CRM] Contact sync failed:', err))
 
     return NextResponse.json({ success: true })
   } catch (error) {
