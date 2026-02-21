@@ -12,7 +12,7 @@
 
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { upsertContact, logActivity } from '@shared/crm'
+import { syncLeadToCrm } from '@/lib/crm'
 
 const VALID_SUBJECTS = [
   'General Inquiry',
@@ -74,24 +74,12 @@ export async function POST(request: Request) {
     }
 
     // Sync to CRM (non-blocking)
-    upsertContact({
-      email: email.trim().toLowerCase(),
-      firstName: name.trim(),
-      sourceSite: 'atf',
-      sourceForm: 'contact',
-      tags: ['contact-form', subject.toLowerCase().replace(/\s+/g, '-')],
-      consent: true,
-    }).then(result => {
-      if (result.success) {
-        logActivity({
-          contactId: result.data.id,
-          type: 'form_submit',
-          channel: 'web',
-          subject: `Contact form: ${subject}`,
-          body: message.trim(),
-        }).catch(err => console.error('[CRM] Activity log failed:', err))
-      }
-    }).catch(err => console.error('[CRM] Contact sync failed:', err))
+    try {
+      await syncLeadToCrm(email.trim().toLowerCase(), 'contact', {
+        tags: ['contact-form', subject.toLowerCase().replace(/\s+/g, '-')],
+        metadata: { name: name.trim(), subject, message: message.trim() },
+      })
+    } catch {}
 
     return NextResponse.json({ success: true })
   } catch (error) {
